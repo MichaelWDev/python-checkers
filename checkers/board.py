@@ -5,9 +5,9 @@ from .piece import Piece
 
 class Board:
 	def __init__(self):
-		self.board          = [[]] # Two dimensional list.
-		self.red_left       = self.white_left = 12 # Both sides have 12 pieces.
-		self.red_kings      = self.white_kings = 0
+		self.board          = [] # Two dimensional list.
+		self.red_left       = self.white_left  = 12 # Both sides start with 12 pieces.
+		self.red_kings      = self.white_kings = 0 # Both sides start with 0 kings.
 		self.create_board()
 
 	def draw_squares(self, win):
@@ -21,7 +21,7 @@ class Board:
 		self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col] # Swaps positions in the list.
 		piece.move(row, col)
 
-		if row == ROWS or row == 0: # Makes the correct checker piece a king.
+		if row == ROWS - 1 or row == 0: # Makes the correct checker piece a king.
 			piece.make_king()
 
 			if piece.color == WHITE:
@@ -60,6 +60,14 @@ class Board:
 		for piece in pieces:
 			self.board[piece.row][piece.col] = 0
 
+	def winner(self):
+		if self.red_left <= 0:
+			return WHITE
+		elif self.white_left <= 0:
+			return RED
+
+		return None
+
 	def get_valid_moves(self, piece):
 		moves = {} # Stores the move as the key.
 		left  = piece.col - 1 # Moves piece left/right.
@@ -72,7 +80,7 @@ class Board:
 
 		if piece.color == WHITE or piece.king:
 			moves.update(self._traverse_left(row + 1, min(row + 3, ROWS), 1, piece.color, left))
-			moves.update(self._traverse_right(row + 1, max(row + 3, ROWS), 1, piece.color, right))
+			moves.update(self._traverse_right(row + 1, min(row + 3, ROWS), 1, piece.color, right))
 
 		return moves
 

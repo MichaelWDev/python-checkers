@@ -1,6 +1,6 @@
 # Draws the pieces.
 import pygame
-from .constants import RED, WHITE, SQUARE_SIZE, GREY, CROWN
+from .constants import SQUARE_SIZE, GREY, CROWN
 
 class Piece:
 	PADDING = 15
