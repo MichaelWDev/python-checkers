@@ -27,7 +27,7 @@ def main():
 		clock.tick(FPS)
 
 		if game.turn == WHITE:
-			value, new_board = minimax(game.get_board(), 4, WHITE, game) # 4 is the depth: How many boards the AI considers before moving.
+			value, new_board = minimax(game.get_board(), 3, WHITE, game) # 4 is the depth: How many boards the AI considers before moving.
 			game.ai_move(new_board) # The AI has moved, update the new board.
 		
 		if game.winner() != None:
