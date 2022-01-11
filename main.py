@@ -1,9 +1,9 @@
 # pip install pygame
 # NOTE 1/5/2022: Cannot move white for some reason.
 import pygame
-from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE
+from checkers.constants import WHITE, WIDTH, HEIGHT, SQUARE_SIZE
 from checkers.game import Game
-# from minimax.algorithm import minimax
+from minimax.algorithm import minimax
 
 FPS = 60 # Specific to rendering this game. Not constants.
 
@@ -25,6 +25,10 @@ def main():
 
 	while run:
 		clock.tick(FPS)
+
+		if game.turn == WHITE:
+			value, new_board = minimax(game.get_board(), 4, WHITE, game) # 4 is the depth: How many boards the AI considers before moving.
+			game.ai_move(new_board) # The AI has moved, update the new board.
 		
 		if game.winner() != None:
 			print(game.winner())

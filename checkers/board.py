@@ -17,6 +17,17 @@ class Board:
 			for col in range(row % 2, COLS, 2):
 				pygame.draw.rect(win, RED, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE)) # () Draws the board from the top left.
 
+	def evaluate(self):
+		return self.white_left - self.red_left + (self.white_kings * 0.5 - self.red_kings * 0.5) # Positive / Negative score.
+
+	def get_all_pieces(self, color):
+		pieces = []
+		for row in self.board:
+			for piece in row:
+				if piece != 0 and piece.color == color:
+					pieces.append(piece)
+		return pieces
+
 	def move(self, piece, row, col):
 		self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col] # Swaps positions in the list.
 		piece.move(row, col)
@@ -25,9 +36,9 @@ class Board:
 			piece.make_king()
 
 			if piece.color == WHITE:
-				self.white_kings += 1
+				self.white_kings += 1 # Creates white king.
 			else:
-				self.red_kings += 1
+				self.red_kings += 1 # Creates red king.
 
 	def get_piece(self, row, col):
 		return self.board[row][col]
